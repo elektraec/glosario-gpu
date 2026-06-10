@@ -1,0 +1,119 @@
+```html
+<div id="gpu-flashcards" style="font-family: Arial, sans-serif; max-width: 650px; margin: auto; text-align: center;">
+
+  <h2 style="color:#1f4e79;">Glosario</h2>
+  <p>Haz clic en la tarjeta para ver la definición. Usa las flechas para avanzar o retroceder.</p>
+
+  <div id="card"
+       onclick="flipCard()"
+       style="min-height: 230px; border-radius: 16px; border: 1px solid #cfd8dc; box-shadow: 0 4px 10px rgba(0,0,0,0.15); padding: 30px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:#eaf3fb; color:#1f4e79; font-size:1.8em; font-weight:bold;">
+  </div>
+
+  <p id="counter" style="margin-top:12px; color:#555;"></p>
+
+  <div style="margin-top: 15px;">
+    <button onclick="prevCard()" style="padding:10px 18px; margin:5px; border:none; border-radius:8px; background:#1f4e79; color:white; cursor:pointer;">← Anterior</button>
+    <button onclick="flipCard()" style="padding:10px 18px; margin:5px; border:none; border-radius:8px; background:#607d8b; color:white; cursor:pointer;">Voltear</button>
+    <button onclick="nextCard()" style="padding:10px 18px; margin:5px; border:none; border-radius:8px; background:#1f4e79; color:white; cursor:pointer;">Siguiente →</button>
+  </div>
+
+  <script>
+    const cards = [
+      ["Ancho de Banda", "Cantidad de datos que pueden transferirse entre la GPU y la memoria por segundo. Se mide en GB/s o TB/s."],
+      ["Arquitectura GPU", "Organización interna de una GPU, incluyendo núcleos, memoria, controladores y unidades especializadas."],
+      ["Bloque", "Conjunto de hilos que se ejecutan dentro de un Streaming Multiprocessor."],
+      ["Bus de Memoria", "Canal de comunicación entre la GPU y la VRAM. Su tamaño se mide en bits."],
+      ["CUDA", "Plataforma de programación paralela de NVIDIA que permite usar la GPU para cómputo general."],
+      ["CUDA Core", "Unidad básica de procesamiento en GPUs NVIDIA. Ejecuta operaciones aritméticas y lógicas en paralelo."],
+      ["Cache", "Memoria rápida que almacena datos de uso frecuente para reducir la latencia."],
+      ["Clúster GPU", "Conjunto de múltiples GPUs trabajando de forma coordinada para resolver problemas de gran escala."],
+      ["Deep Learning", "Rama de la inteligencia artificial basada en redes neuronales profundas."],
+      ["DLSS", "Tecnología de NVIDIA que usa IA para escalar imágenes a mayor resolución con menor carga computacional."],
+      ["FP32", "Formato de punto flotante de 32 bits usado en gráficos y cómputo científico."],
+      ["Frecuencia de Reloj", "Velocidad a la que opera un procesador. Se mide en MHz o GHz."],
+      ["GDDR", "Tipo de memoria gráfica optimizada para ofrecer alto ancho de banda."],
+      ["GDDR6X", "Memoria gráfica de alto rendimiento usada en GPUs modernas."],
+      ["GDDR7", "Nueva generación de memoria gráfica con mayor eficiencia energética y ancho de banda."],
+      ["GPU", "Unidad de Procesamiento Gráfico especializada en ejecutar miles de operaciones en paralelo."],
+      ["GPGPU", "Uso de una GPU para tareas de propósito general, no solo gráficos."],
+      ["Grid", "Conjunto total de bloques que ejecutan un kernel dentro de una GPU."],
+      ["HBM", "Memoria de alto ancho de banda apilada verticalmente en 3D."],
+      ["HBM3e", "Versión avanzada de HBM usada en GPUs de centros de datos e inteligencia artificial."],
+      ["Hilo / Thread", "Unidad mínima de ejecución dentro de una GPU."],
+      ["IA", "Inteligencia Artificial: campo que desarrolla sistemas capaces de realizar tareas asociadas con inteligencia humana."],
+      ["Inferencia", "Proceso en el que un modelo de IA entrenado genera una respuesta, predicción o clasificación."],
+      ["Kernel", "Función que se ejecuta en paralelo en miles de hilos dentro de una GPU."],
+      ["Latencia", "Tiempo que tarda una operación o transferencia de datos en completarse."],
+      ["LLM", "Modelo de lenguaje de gran tamaño utilizado en sistemas de IA generativa."],
+      ["Memoria Compartida", "Memoria rápida accesible por los hilos de un mismo bloque dentro de un SM."],
+      ["Multiplicación de Matrices", "Operación matemática clave en inteligencia artificial, gráficos y redes neuronales."],
+      ["Núcleo", "Unidad de procesamiento capaz de ejecutar instrucciones."],
+      ["NVLink", "Tecnología de NVIDIA para comunicación de alta velocidad entre múltiples GPUs."],
+      ["OpenCL", "Estándar abierto para programación paralela compatible con GPUs de distintos fabricantes."],
+      ["Paralelismo Masivo", "Capacidad de ejecutar miles de operaciones simultáneamente."],
+      ["PCIe", "Interfaz que conecta la GPU con la CPU y el resto del sistema."],
+      ["Pipeline Gráfico", "Secuencia de etapas que transforma modelos 3D en imágenes visibles en pantalla."],
+      ["Ray Tracing", "Técnica de renderizado que simula el comportamiento físico de la luz."],
+      ["RT Core", "Unidad especializada para acelerar cálculos de Ray Tracing."],
+      ["Registros", "Memoria interna de muy baja latencia usada por cada hilo de ejecución."],
+      ["Shader", "Programa que se ejecuta en la GPU para procesar gráficos."],
+      ["SIMD", "Modelo donde una misma instrucción opera simultáneamente sobre múltiples datos."],
+      ["SIMT", "Modelo donde múltiples hilos ejecutan instrucciones similares sobre datos diferentes."],
+      ["SM", "Streaming Multiprocessor: unidad principal de ejecución en GPUs NVIDIA."],
+      ["Stream Processor", "Unidad básica de procesamiento en GPUs AMD, equivalente conceptual a los CUDA Cores."],
+      ["Tensor Core", "Unidad especializada en operaciones matriciales para inteligencia artificial y deep learning."],
+      ["TFLOPS", "Billones de operaciones de punto flotante por segundo. Mide capacidad de cálculo matemático."],
+      ["Throughput", "Cantidad total de trabajo que un sistema puede procesar en un tiempo determinado."],
+      ["Vertex Shader", "Etapa del pipeline gráfico que procesa los vértices de modelos 3D."],
+      ["VRAM", "Memoria dedicada de la GPU para texturas, modelos, buffers y datos de IA."],
+      ["Warp", "Grupo de 32 hilos que se ejecutan juntos en una GPU NVIDIA."],
+      ["Wavefront", "Equivalente al Warp en arquitecturas AMD."]
+    ];
+
+    let index = 0;
+    let showingDefinition = false;
+
+    function renderCard() {
+      const card = document.getElementById("card");
+      const counter = document.getElementById("counter");
+
+      card.innerHTML = showingDefinition ? cards[index][1] : cards[index][0];
+
+      if (showingDefinition) {
+        card.style.background = "#ffffff";
+        card.style.color = "#222";
+        card.style.fontSize = "1.05em";
+        card.style.fontWeight = "normal";
+        card.style.lineHeight = "1.6";
+      } else {
+        card.style.background = "#eaf3fb";
+        card.style.color = "#1f4e79";
+        card.style.fontSize = "1.8em";
+        card.style.fontWeight = "bold";
+      }
+
+      counter.innerHTML = "Tarjeta " + (index + 1) + " de " + cards.length;
+    }
+
+    function flipCard() {
+      showingDefinition = !showingDefinition;
+      renderCard();
+    }
+
+    function nextCard() {
+      index = (index + 1) % cards.length;
+      showingDefinition = false;
+      renderCard();
+    }
+
+    function prevCard() {
+      index = (index - 1 + cards.length) % cards.length;
+      showingDefinition = false;
+      renderCard();
+    }
+
+    renderCard();
+  </script>
+
+</div>
+```
